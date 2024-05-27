@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\MyUser.Communication\MyUser.Communication.csproj" />
+    <ProjectReference Include="..\..\Shared\MyUser.Exceptions\MyUser.Exceptions.csproj" />
+    <ProjectReference Include="..\MyUser.Domain\MyUser.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
