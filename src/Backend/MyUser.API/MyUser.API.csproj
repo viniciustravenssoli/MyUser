@@ -14,6 +14,7 @@
     <ProjectReference Include="..\..\Shared\MyUser.Communication\MyUser.Communication.csproj" />
     <ProjectReference Include="..\..\Shared\MyUser.Exceptions\MyUser.Exceptions.csproj" />
     <ProjectReference Include="..\MyUser.Application\MyUser.Application.csproj" />
+    <ProjectReference Include="..\MyUser.Infra\MyUser.Infra.csproj" />
   </ItemGroup>
 
 </Project>
