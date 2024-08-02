@@ -7,9 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Refit" Version="7.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Shared\MyUser.Communication\MyUser.Communication.csproj" />
     <ProjectReference Include="..\..\Shared\MyUser.Exceptions\MyUser.Exceptions.csproj" />
     <ProjectReference Include="..\MyUser.Domain\MyUser.Domain.csproj" />
+    <ProjectReference Include="..\MyUser.Infra\MyUser.Infra.csproj" />
   </ItemGroup>
 
 </Project>

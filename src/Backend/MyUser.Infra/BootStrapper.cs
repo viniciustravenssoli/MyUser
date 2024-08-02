@@ -6,7 +6,9 @@ using MyUser.Domain.Repositories.User;
 using MyUser.Infra.Context.Db;
 using MyUser.Infra.Context.Repositories.Address;
 using MyUser.Infra.Context.Repositories.User;
+using MyUser.Infra.Services;
 using MyUser.Infra.UoW;
+using Refit;
 
 namespace MyUser.Infra;
 public static class BootStrapper
@@ -16,6 +18,7 @@ public static class BootStrapper
         AddRepositories(services);
         AddUnitOfWork(services);
         AddContext(services, configurationManager);
+        AddRefit(services, configurationManager);
     }
 
     private static void AddUnitOfWork(IServiceCollection services)
@@ -23,15 +26,21 @@ public static class BootStrapper
         services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 
+    private static void AddRefit(IServiceCollection services, IConfiguration configurationManager)
+    {
+        services.AddRefitClient<ICepService>().ConfigureHttpClient(c =>
+        {
+            var urlApi = configurationManager["CepApi:Url"];
+            c.BaseAddress = new Uri(urlApi);
+        });
+
+    }
+
     private static void AddContext(IServiceCollection services, IConfiguration configurationManager)
     {
 
-        var connectionString = configurationManager.GetConnectionString("DefaultConnection");
-
         services.AddDbContext<MyUserDbContext>(options =>
-        {
-            options.UseSqlite(connectionString);
-        });
+        options.UseSqlite("Data Source=test.db"));
 
     }
     private static void AddRepositories(IServiceCollection services)

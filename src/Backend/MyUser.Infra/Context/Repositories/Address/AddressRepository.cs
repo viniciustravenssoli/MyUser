@@ -1,4 +1,5 @@
-﻿using MyUser.Domain.Repositories.Address;
+﻿using MyUser.Domain.Entities;
+using MyUser.Domain.Repositories.Address;
 using MyUser.Infra.Context.Db;
 using System;
 using System.Collections.Generic;
@@ -16,8 +17,8 @@ public class AddressRepository : IAddressReadOnlyRepository, IAddressWriteOnlyRe
         _context = context;
     }
 
-    public Task Add(Domain.Entities.Address user)
+    public async Task Add(Domain.Entities.Address address)
     {
-        throw new NotImplementedException();
+        await _context.Addresses.AddAsync(address);
     }
 }

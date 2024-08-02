@@ -19,4 +19,5 @@ public class CreateUserRequest : Request
     public string Password { get; set; }
     [RegularExpression(@"^\d{2} \d{2} \d{4}-\d{4}$", ErrorMessage = "O telefone deve seguir o formato XX XX XXXX-XXXX")]
     public string Phone { get; set; }
+    public string CEP { get; set; }
 }

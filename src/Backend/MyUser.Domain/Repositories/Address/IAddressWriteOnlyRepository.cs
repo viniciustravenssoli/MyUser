@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 namespace MyUser.Domain.Repositories.Address;
 public interface IAddressWriteOnlyRepository
 {
-    Task Add(Entities.Address user);
+    Task Add(Entities.Address address);
 }

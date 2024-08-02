@@ -1,4 +1,5 @@
-﻿using MyUser.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using MyUser.Domain.Entities;
 using MyUser.Domain.Repositories.User;
 using MyUser.Infra.Context.Db;
 using System;
@@ -17,23 +18,26 @@ public class UserRepository : IUserReadOnlyRepository, IUserWriteOnlyRepository
         _context = context;
     }
 
-    public Task Add(Domain.Entities.User user)
+    public async Task Add(Domain.Entities.User user)
     {
-        throw new NotImplementedException();
+        await _context.Users.AddAsync(user);
     }
 
-    public Task<bool> ExistUserWithEmail(string email)
+    public async Task<bool> ExistUserWithEmail(string email)
     {
-        throw new NotImplementedException();
+        return await _context.Users.AnyAsync(x => x.Email.Equals(email));
     }
 
-    public Task<Domain.Entities.User> GetByEmail(string email)
+    public async Task<Domain.Entities.User> GetByEmail(string email)
     {
-        throw new NotImplementedException();
+        return await _context.Users
+              .Include(u => u.Addresses)
+              .FirstOrDefaultAsync(x => x.Email.Equals(email));
     }
 
-    public Task<Domain.Entities.User> GetByEmailAndPassword(string email, string password)
+    public async Task<Domain.Entities.User> GetByEmailAndPassword(string email, string password)
     {
-        throw new NotImplementedException();
+        return await _context.Users
+               .FirstOrDefaultAsync(x => x.Email.Equals(email) && x.Password == password);
     }
 }
