@@ -25,15 +25,24 @@ namespace MyUser.Application.User
             _userReadOnlyRepository = userReadOnlyRepository;
         }
 
-        public async Task CreateUser(CreateUserRequest request)
+        public async Task<Result> CreateUser(CreateUserRequest request)
         {
             var usuarioExist = await _userReadOnlyRepository.ExistUserWithEmail(request.Email);
             if (usuarioExist)
             {
-                throw new ArgumentException("Já existe um usuário com este email");
+                return Result.Failure("Já existe um usuário com este email.");
             }
 
-            ResponseCepDto responseCep = await _cepService.BuscaCep(request.CEP);
+            ResponseCepDto responseCep;
+
+            try
+            {
+                responseCep = await _cepService.BuscaCep(request.CEP);
+            }
+            catch (Refit.ApiException ex) when (ex.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                return Result.Failure("CEP não encontrado ou inválido. Por favor, verifique o CEP informado.");
+            }
 
             var addresses = ConvertToAddresses(responseCep);
 
@@ -48,6 +57,8 @@ namespace MyUser.Application.User
 
             await _userWriteOnlyRepository.Add(user);
             await _unitOfWork.Commit();
+
+            return Result.Success("Usuário criado com sucesso!");
         }
 
         private ICollection<Domain.Entities.Address> ConvertToAddresses(ResponseCepDto responseCep)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MyUser.Application;
 using MyUser.Application.User;
 using MyUser.Communication.User.Requests;
 
@@ -18,7 +19,16 @@ public class UserController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
     {
-        await _userService.CreateUser(request);
-        return Ok();
+        Result result = await _userService.CreateUser(request);
+
+        if (result.IsSuccessful)
+        {
+            return Ok(result.Message);
+        }
+        else
+        {
+            return BadRequest(result.Message);
+        }
     }
+
 }
